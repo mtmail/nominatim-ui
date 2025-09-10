@@ -10,7 +10,6 @@
   import Header from '../components/Header.svelte';
   import MapIcon from '../components/MapIcon.svelte';
   import SearchSectionDetails from '../components/SearchSectionDetails.svelte';
-  import DetailsTableHeader from '../components/DetailsTableHeader.svelte';
   import DetailsOneRow from '../components/DetailsOneRow.svelte';
   import DetailsLink from '../components/DetailsLink.svelte';
   import DetailsPostcodeHint from '../components/DetailsPostcodeHint.svelte';
@@ -89,6 +88,20 @@
   <SearchSectionDetails api_request_params={api_request_params}/>
 {/snippet}
 <Header {subheader} />
+
+{#snippet addressTableHeaderRow()}
+  <thead>
+    <tr>
+      <th>Local name</th>
+      <th>Type</th>
+      <th>OSM</th>
+      <th>Address rank</th>
+      <th>Admin level</th>
+      <th>Distance</th>
+      <th></th>
+    </tr>
+  </thead>
+{/snippet}
 
 <div class="container">
   {#if aPlace}
@@ -182,7 +195,7 @@
         <h2>Address</h2>
         {#if aPlace.address}
           <table id="address" class="table table-striped table-small">
-            <DetailsTableHeader />
+            {@render addressTableHeaderRow()}
             <tbody>
               {#each aPlace.address as addressLine}
                 <DetailsOneRow addressLine={addressLine}
@@ -197,7 +210,7 @@
         <h2>Linked Places</h2>
         {#if aPlace.linked_places}
           <table class="table table-striped table-small">
-            <DetailsTableHeader />
+            {@render addressTableHeaderRow()}
             <tbody>
               {#each aPlace.linked_places as addressLine}
                 <DetailsOneRow addressLine={addressLine}
@@ -283,7 +296,7 @@
           {#each Object.keys(aPlace.hierarchy) as type}
             <h3>{type}</h3>
             <table class="table table-striped table-small">
-              <DetailsTableHeader />
+              {@render addressTableHeaderRow()}
               <tbody>
                 {#each aPlace.hierarchy[type] as line}
                   <DetailsOneRow addressLine={line} bDistanceInMeters={true} />
